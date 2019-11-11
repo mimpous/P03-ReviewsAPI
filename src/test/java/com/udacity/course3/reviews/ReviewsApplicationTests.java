@@ -1,6 +1,9 @@
 package com.udacity.course3.reviews;
+ 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.assertThat;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
@@ -48,9 +51,9 @@ public class ReviewsApplicationTests {
 		
 		 entityManager.persist(product);
 
-		 Product actual = productRepository.findByProductName("Test Product")
-		    assertThat(actual).isNotNull();
-		    assertEquals(product.getId(), actual.getProductId() );
+		 Product actual = productRepository.findByProductName("Test Product").orElse(null);
+		 assertThat(actual).isNotNull();
+		 assertEquals(product.getProductId(), actual.getProductId() );
 		    
 	}
 
