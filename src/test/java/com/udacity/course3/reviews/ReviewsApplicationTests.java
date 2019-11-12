@@ -76,7 +76,6 @@ public class ReviewsApplicationTests {
 		Product product = new Product();
 		product.setProductName("Test Product");
 
-
 		Review review = new Review();
 		review.setReviewDescr("Rev desc");
 		List<Review> reviewList = new ArrayList<Review>();
@@ -93,30 +92,31 @@ public class ReviewsApplicationTests {
 	@Test
 	public void commentsTest() {
 
-		Review review = new Review();
-		review.setReviewDescr("Rev desc");
 		Product product = new Product();
 		product.setProductName("Test Product");
 
-		List<Review> reviewList = new ArrayList<Review>();
-		reviewList.add(review);
-		product.setReviews(reviewList);
+		Review review = new Review();
 		
-		entityManager.persist(review);
-		 
- 		
 		Comment comment = new Comment();
 		comment.setCommentText("This is a Comment"); 
-	
-		comment.setReview( review);
- 	
- 		entityManager.persist(comment); 
- 		entityManager.persist(product);
-//		
-
+		List<Comment> commentList = new ArrayList<Comment>();
+		commentList.add( comment );
+		
+		review.setComments( commentList );
+		review.setReviewDescr("Rev desc");
+		 
+		List<Review> reviewList = new ArrayList<Review>();
+		 
+		reviewList.add(review);
+		
+		product.setReviews(reviewList); 
+		
+		entityManager.persist(product);  
+		
 		Comment actual = commentRepository.findByCommentText("This is a Comment").orElse(null);
 		assertThat(actual).isNotNull();
-	//	assertEquals(comment.getCommentId() , actual.getCommentId());
+		assertEquals(comment.getCommentId(), actual.getCommentId());
+		 
 
 	}
 

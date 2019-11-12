@@ -23,9 +23,9 @@ public class Review {
 	private Integer reviewId;
 	
 	@Column(name="review_descr")
-	private String reviewDescr;
-  	
-	@OneToMany(mappedBy =  "review", cascade = CascadeType.DETACH, fetch=FetchType.LAZY )
+	private String reviewDescr; 
+	
+	@OneToMany(mappedBy =  "review",  fetch = FetchType.LAZY, orphanRemoval = true )
 	private List<Comment> comments;
 	 
 	@ManyToOne

@@ -18,7 +18,10 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="comment_id")
 	private Integer commentId;
-	 
+
+	@Column(name="comment_text")
+	private String commentText;
+	
 	
 	public String getCommentText() {
 		return commentText;
@@ -28,9 +31,8 @@ public class Comment {
 		this.commentText = commentText;
 	}
 
-	private String commentText;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne 
 	@JoinColumn(name = "review_id")
 	private Review review;
 
