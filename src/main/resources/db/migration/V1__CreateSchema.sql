@@ -11,10 +11,12 @@ CREATE TABLE reviews (
    FOREIGN KEY (review_id)
         REFERENCES products (product_id) 
 );  
-CREATE TABLE comment (
+CREATE TABLE comments (
      comment_id MEDIUMINT NOT NULL AUTO_INCREMENT,
-     comments VARCHAR (1000) NOT NULL,
+     comment_text VARCHAR (1000) NOT NULL,
      PRIMARY KEY (comment_id) ,
    FOREIGN KEY (comment_id)
         REFERENCES reviews (review_id) 
 );
+
+create sequence hibernate_sequence;

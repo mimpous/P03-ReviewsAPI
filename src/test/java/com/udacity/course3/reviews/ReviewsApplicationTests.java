@@ -20,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.udacity.course3.reviews.domain.Comment;
 import com.udacity.course3.reviews.domain.Product;
 import com.udacity.course3.reviews.domain.Review;
 import com.udacity.course3.reviews.repository.CommentRepository;
@@ -57,7 +58,41 @@ public class ReviewsApplicationTests {
 	}
 
 	@Test
-	public void contextLoads() {
+	public void productTest() {
+		
+		Product product = new Product();
+		product.setProductName("Test Product");
+		entityManager.persist(product);
+		
+		Product actual = productRepository.findByProductName("Test Product").orElse(null);
+		assertThat(actual).isNotNull();
+		assertEquals(product.getProductId(), actual.getProductId());
+		
+		
+	}
+	@Test
+	public void reviewTest() {
+
+		Product product = new Product();
+		product.setProductName("Test Product");
+
+
+		Review review = new Review();
+		review.setReviewDescr("Rev desc");
+		List<Review> reviewList = new ArrayList<Review>();
+		reviewList.add(review);
+		product.setReviews(reviewList);
+		entityManager.persist(product);
+		entityManager.persist(review);
+
+		Review actual = reviewsRepository.findByReviewDescr("Rev desc").orElse(null);
+		assertThat(actual).isNotNull();
+		assertEquals(review.getReviewId(), actual.getReviewId());
+
+	}
+	
+	@Test
+	public void commentsTest() {
 
 		Review review = new Review();
 		review.setReviewDescr("Rev desc");
@@ -67,11 +102,22 @@ public class ReviewsApplicationTests {
 		List<Review> reviewList = new ArrayList<Review>();
 		reviewList.add(review);
 		product.setReviews(reviewList);
-		entityManager.persist(product);
+		
+		entityManager.persist(review);
+		 
+ 		
+		Comment comment = new Comment();
+		comment.setCommentText("This is a Comment"); 
+	
+		comment.setReview( review);
+ 	
+ 		entityManager.persist(comment); 
+ 		entityManager.persist(product);
+//		
 
-		Product actual = productRepository.findByProductName("Test Product").orElse(null);
+		Comment actual = commentRepository.findByCommentText("This is a Comment").orElse(null);
 		assertThat(actual).isNotNull();
-		assertEquals(product.getProductId(), actual.getProductId());
+	//	assertEquals(comment.getCommentId() , actual.getCommentId());
 
 	}
 

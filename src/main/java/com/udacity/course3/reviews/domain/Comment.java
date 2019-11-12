@@ -14,11 +14,20 @@ import javax.persistence.Table;
 public class Comment {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="comment_id")
 	private Long commentId;
 	 
-	private String comments;
+	
+	public String getCommentText() {
+		return commentText;
+	}
+
+	public void setCommentText(String commentText) {
+		this.commentText = commentText;
+	}
+
+	private String commentText;
 	
 	@ManyToOne
 	@JoinColumn(name = "review_id")
@@ -31,15 +40,7 @@ public class Comment {
 	public void setCommentId(Long commentId) {
 		this.commentId = commentId;
 	}
-
-	public String getComments() {
-		return comments;
-	}
-
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
-
+ 
 	public Review getReview() {
 		return review;
 	}

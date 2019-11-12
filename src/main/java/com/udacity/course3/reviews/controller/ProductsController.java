@@ -1,11 +1,22 @@
 package com.udacity.course3.reviews.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
-
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.udacity.course3.reviews.domain.Product;
+import com.udacity.course3.reviews.repository.ProductRepository;
 
 /**
  * Spring REST controller for working with product entity.
@@ -13,8 +24,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductsController {
-
-    // TODO: Wire JPA repositories here
+ 
+	@Autowired
+	ProductRepository productRepository;
 
     /**
      * Creates a product.
@@ -24,8 +36,8 @@ public class ProductsController {
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createProduct() {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+    public void createProduct(@Valid @RequestBody Product product ) {
+    	productRepository.save( product ); 
     }
 
     /**
@@ -35,9 +47,15 @@ public class ProductsController {
      * @return The product if found, or a 404 not found.
      */
     @RequestMapping(value = "/{id}")
-    public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+    public Product findById(@PathVariable("id") Integer id) {
+        Product product = productRepository.findById( id ).orElse(null);
+        if ( product == null ) {
+        	throw     
+    	 	new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return product;
     }
+ 
 
     /**
      * Lists all products.
@@ -46,6 +64,8 @@ public class ProductsController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<?> listProducts() {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+    	List<Product> result = new ArrayList<Product>();
+        productRepository.findAll().forEach(result::add);
+        return result;
     }
 }

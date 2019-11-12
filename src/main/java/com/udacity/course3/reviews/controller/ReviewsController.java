@@ -1,20 +1,35 @@
 package com.udacity.course3.reviews.controller;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import com.udacity.course3.reviews.domain.Product;
+import com.udacity.course3.reviews.domain.Review;
+import com.udacity.course3.reviews.repository.ProductRepository;
+import com.udacity.course3.reviews.repository.ReviewsRepository;
 
 /**
  * Spring REST controller for working with review entity.
  */
 @RestController
 public class ReviewsController {
+ 
+	@Autowired
+	ReviewsRepository reviewsRepository;
 
-    // TODO: Wire JPA repositories here
-
+	@Autowired
+	ProductRepository productRepository;
     /**
      * Creates a review for a product.
      * <p>
@@ -26,9 +41,19 @@ public class ReviewsController {
      * @param productId The id of the product.
      * @return The created review or 404 if product id is not found.
      */
-    @RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.POST)
-    public ResponseEntity<?> createReviewForProduct(@PathVariable("productId") Integer productId) {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+    @SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.POST)
+    public ResponseEntity<?> createReviewForProduct(@Valid @RequestBody Review review , @PathVariable("productId") Integer productId) {
+    
+    	Product product = productRepository.findById( productId ).orElse(null);
+        if ( product == null ) {
+        	throw     
+    	 	new ResponseStatusException(HttpStatus.NOT_FOUND);
+        } else {
+        	reviewsRepository.save(review); 
+    		return new ResponseEntity(HttpStatus.OK); 
+        }
+    	 
     }
 
     /**
@@ -37,8 +62,13 @@ public class ReviewsController {
      * @param productId The id of the product.
      * @return The list of reviews.
      */
-    @RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.GET)
+    @SuppressWarnings("unchecked")
+	@RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.GET)
     public ResponseEntity<List<?>> listReviewsForProduct(@PathVariable("productId") Integer productId) {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+ 
+    	 return  (ResponseEntity<List<?>>) productRepository.findById( productId ).get().getReviews();
+
     }
+     
+    
 }
