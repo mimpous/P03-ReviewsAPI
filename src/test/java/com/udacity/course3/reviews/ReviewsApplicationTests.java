@@ -82,8 +82,7 @@ public class ReviewsApplicationTests {
 		List<Review> reviewList = new ArrayList<Review>();
 		reviewList.add(review);
 		product.setReviews(reviewList);
-		entityManager.persist(product);
-		entityManager.persist(review);
+		entityManager.persist(product); 
 
 		Review actual = reviewsRepository.findByReviewDescr("Rev desc").orElse(null);
 		assertThat(actual).isNotNull();
