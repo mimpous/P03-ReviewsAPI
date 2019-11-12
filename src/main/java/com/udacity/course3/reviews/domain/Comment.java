@@ -2,6 +2,7 @@ package com.udacity.course3.reviews.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,7 +17,7 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="comment_id")
-	private Long commentId;
+	private Integer commentId;
 	 
 	
 	public String getCommentText() {
@@ -29,15 +30,15 @@ public class Comment {
 
 	private String commentText;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "review_id")
 	private Review review;
 
-	public Long getCommentId() {
+	public Integer getCommentId() {
 		return commentId;
 	}
 
-	public void setCommentId(Long commentId) {
+	public void setCommentId(Integer commentId) {
 		this.commentId = commentId;
 	}
  

@@ -43,15 +43,17 @@ public class ReviewsController {
      */
     @SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.POST)
-    public ResponseEntity<?> createReviewForProduct(@Valid @RequestBody Review review , @PathVariable("productId") Integer productId) {
+    public @Valid Review createReviewForProduct(@Valid @RequestBody Review review , @PathVariable("productId") Integer productId) {
     
     	Product product = productRepository.findById( productId ).orElse(null);
         if ( product == null ) {
         	throw     
     	 	new ResponseStatusException(HttpStatus.NOT_FOUND);
         } else {
+        	review.setProduct(product); 
         	reviewsRepository.save(review); 
-    		return new ResponseEntity(HttpStatus.OK); 
+        	productRepository.save(product);
+    		return review; 
         }
     	 
     }
@@ -64,9 +66,10 @@ public class ReviewsController {
      */
     @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.GET)
-    public ResponseEntity<List<?>> listReviewsForProduct(@PathVariable("productId") Integer productId) {
+    public List<Review> listReviewsForProduct(@PathVariable("productId") Integer productId) {
  
-    	 return  (ResponseEntity<List<?>>) productRepository.findById( productId ).get().getReviews();
+    	Product product = productRepository.findById( productId ).get();
+    	 return  product.getReviews();
 
     }
      

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,19 +18,19 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="product_id")
-	private Long productId;
+	private Integer productId;
 	
 	@Column(name="product_name")
 	private String productName;
 	
-	@OneToMany(mappedBy =  "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	@OneToMany(mappedBy =  "product" ,fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Review> reviews;
 
-	public Long getProductId() {
+	public Integer getProductId() {
 		return productId;
 	}
 
-	public void setProductId(Long productId) {
+	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
 

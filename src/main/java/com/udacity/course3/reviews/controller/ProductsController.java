@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.udacity.course3.reviews.domain.Product;
 import com.udacity.course3.reviews.repository.ProductRepository;
 
@@ -46,6 +47,7 @@ public class ProductsController {
      * @param id The id of the product.
      * @return The product if found, or a 404 not found.
      */
+    @JsonIgnore
     @RequestMapping(value = "/{id}")
     public Product findById(@PathVariable("id") Integer id) {
         Product product = productRepository.findById( id ).orElse(null);

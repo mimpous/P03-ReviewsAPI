@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,24 +20,23 @@ public class Review {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="review_id")
-	private Long reviewId;
+	private Integer reviewId;
 	
 	@Column(name="review_descr")
 	private String reviewDescr;
- 
-	
-	@OneToMany(mappedBy =  "review", cascade = CascadeType.REMOVE, orphanRemoval = true)
+  	
+	@OneToMany(mappedBy =  "review", cascade = CascadeType.DETACH, fetch=FetchType.LAZY )
 	private List<Comment> comments;
-	
+	 
 	@ManyToOne
 	@JoinColumn( name="product_id")
 	private Product product;
 
-	public Long getReviewId() {
+	public Integer getReviewId() {
 		return reviewId;
 	}
 
-	public void setReviewId(Long reviewId) {
+	public void setReviewId(Integer reviewId) {
 		this.reviewId = reviewId;
 	}
 
@@ -63,7 +63,7 @@ public class Review {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	
+ 
 	
 }
  
