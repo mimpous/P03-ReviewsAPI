@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,12 +25,12 @@ public class Review {
 	
 	@Column(name="review_descr")
 	private String reviewDescr; 
-	
-	@OneToMany(mappedBy =  "review",  fetch = FetchType.LAZY, orphanRemoval = true )
+	 
+	@OneToMany(mappedBy =  "review" ,fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Comment> comments;
 	 
-	@ManyToOne
-	@JoinColumn( name="product_id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn( name="product_id" )
 	private Product product;
 
 	public Integer getReviewId() {
