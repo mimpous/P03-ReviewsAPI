@@ -25,8 +25,7 @@ import com.udacity.course3.reviews.repository.ReviewsRepository;
 @RestController
 @RequestMapping("/comments")
 public class CommentsController {
-
-    // TODO: Wire needed JPA repositories here
+ 
 	@Autowired
 	CommentRepository commentRepository;
 	
@@ -51,7 +50,7 @@ public class CommentsController {
     	if ( reviewer == null ) {
     		return new ResponseEntity(HttpStatus.NOT_FOUND);
     	} else {
-    		//reviewer.getComments().add(comment);
+    		reviewer.addComment(comment);
     		commentRepository.save(comment);
     		return new ResponseEntity(HttpStatus.OK);
     	}
