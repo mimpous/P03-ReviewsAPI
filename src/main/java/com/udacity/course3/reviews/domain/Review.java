@@ -1,5 +1,6 @@
 package com.udacity.course3.reviews.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,7 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "reviews")
@@ -24,14 +27,22 @@ public class Review {
 	
 	@Column(name="review_descr")
 	private String reviewDescr; 
-	
-	@OneToMany(mappedBy =  "review",  fetch = FetchType.LAZY, orphanRemoval = true )
+	 
+	@OneToMany(mappedBy =  "review" ,fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Comment> comments;
 	 
-	@ManyToOne
-	@JoinColumn( name="product_id")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn( name="product_id" )
 	private Product product;
 
+	@Transient
+	public void addComment( Comment aComment ) {
+		if ( comments == null ) {
+			comments = new ArrayList<Comment>();
+		}
+		comments.add(aComment);
+	}
+	
 	public Integer getReviewId() {
 		return reviewId;
 	}

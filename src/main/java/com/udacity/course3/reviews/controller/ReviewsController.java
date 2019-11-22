@@ -48,10 +48,10 @@ public class ReviewsController {
         if ( product == null ) {
         	throw     
     	 	new ResponseStatusException(HttpStatus.NOT_FOUND);
-        } else {
-        	review.setProduct(product); 
-        	reviewsRepository.save(review); 
-        	productRepository.save(product);
+        } else { 
+        	review.setProduct( product );
+        	product.addReview(review);
+        	reviewsRepository.save( review ); 
     		return review; 
         }
     	 
