@@ -25,8 +25,7 @@ import com.udacity.course3.reviews.repository.ReviewsRepository;
 @RestController
 @RequestMapping("/comments")
 public class CommentsController {
-
-    // TODO: Wire needed JPA repositories here
+ 
 	@Autowired
 	CommentRepository commentRepository;
 	

@@ -27,10 +27,6 @@ public class Product {
 	@OneToMany(mappedBy =  "product" ,fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Review> reviews;
 
-	public Integer getProductId() {
-		return productId;
-	}
-
 	@Transient
 	public void addReview( Review aReview ) {
 		if ( reviews == null ) {
@@ -38,6 +34,12 @@ public class Product {
 		}
 		reviews.add(aReview);
 	}
+	
+	public Integer getProductId() {
+		return productId;
+	}
+
+
 	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -29,7 +30,7 @@ public class Review {
 	@OneToMany(mappedBy =  "review" ,fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Comment> comments;
 	 
-	@OneToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY )
 	@JoinColumn( name="product_id" )
 	private Product product;
 
