@@ -3,12 +3,6 @@ package com.udacity.course3.reviews;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Optional;
-
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
@@ -68,21 +62,22 @@ public class ReviewsApplicationTests {
 		assertThat(actual).isNotNull();
 		assertEquals(product.getProductId(), actual.getProductId());
 		
-		
 	}
+	
 	@Test
 	public void reviewTest() {
 
 		Product product = new Product();
 		product.setProductName("Test Product");
 
-		Review review = new Review();
-		review.setReviewDescr("Rev desc");
-		List<Review> reviewList = new ArrayList<Review>();
-		reviewList.add(review);
-		product.setReviews(reviewList);
 		entityManager.persist(product); 
-
+		
+		Review review = new Review();
+		review.setReviewDescr("Rev desc"); 
+		review.setProduct( product ); 
+ 
+		entityManager.persist(review); 
+		
 		Review actual = reviewsRepository.findByReviewDescr("Rev desc").orElse(null);
 		assertThat(actual).isNotNull();
 		assertEquals(review.getReviewId(), actual.getReviewId());
@@ -91,33 +86,24 @@ public class ReviewsApplicationTests {
 	
 	@Test
 	public void commentsTest() {
-
 		Product product = new Product();
 		product.setProductName("Test Product");
+		entityManager.persist(product); 
 
 		Review review = new Review();
+		review.setReviewDescr("Rev desc"); 
+		review.setProduct( product ); 
+ 
+		entityManager.persist(review); 
 		
 		Comment comment = new Comment();
 		comment.setCommentText("This is a Comment"); 
-		List<Comment> commentList = new ArrayList<Comment>();
-		commentList.add( comment );
+		comment.setReview(review);
 		
-		review.setComments( commentList );
-		review.setReviewDescr("Rev desc");
-		 
-		List<Review> reviewList = new ArrayList<Review>();
-		 
-		reviewList.add(review);
-		
-		product.setReviews(reviewList); 
-		
-		entityManager.persist(product);  
+		entityManager.persist(comment);  
 		
 		Comment actual = commentRepository.findByCommentText("This is a Comment").orElse(null);
 		assertThat(actual).isNotNull();
 		assertEquals(comment.getCommentId(), actual.getCommentId());
-		 
-
 	}
-
 }
