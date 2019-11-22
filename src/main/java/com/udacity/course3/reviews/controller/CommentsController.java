@@ -51,7 +51,7 @@ public class CommentsController {
     	if ( reviewer == null ) {
     		return new ResponseEntity(HttpStatus.NOT_FOUND);
     	} else {
-    		//reviewer.getComments().add(comment);
+    		reviewer.addComment(comment);
     		commentRepository.save(comment);
     		return new ResponseEntity(HttpStatus.OK);
     	}
