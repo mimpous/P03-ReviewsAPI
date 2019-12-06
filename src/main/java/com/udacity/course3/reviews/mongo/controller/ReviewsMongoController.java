@@ -41,8 +41,7 @@ public class ReviewsMongoController {
      * @param productId The id of the product.
      * @return The created review or 404 if product id is not found.
      */
-    @SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/reviews/productsMongo/{productId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/reviews/productsMongo/{productId}", method = RequestMethod.POST)
     public @Valid Review createReviewForProduct(@Valid @RequestBody Review review , @PathVariable("productId") Integer productId) {
     
     	ProductMongo product = productRepository.findById( productId ).orElse(null);
@@ -64,8 +63,7 @@ public class ReviewsMongoController {
      * @param productId The id of the product.
      * @return The list of reviews.
      */
-    @SuppressWarnings("unchecked")
-	@RequestMapping(value = "/reviews/productsMongo/{productId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/reviews/productsMongo/{productId}", method = RequestMethod.GET)
     public List<Review> listReviewsForProduct(@PathVariable("productId") Integer productId) {
  
     	ProductMongo product = productRepository.findById( productId ).get();

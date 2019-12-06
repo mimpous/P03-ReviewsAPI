@@ -1,24 +1,16 @@
 package com.udacity.course3.reviews.mongo.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import com.udacity.course3.reviews.domain.Review;
-@Entity
-@Table(name = "comments")
+
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document("comments")
 public class Comment {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="comment_id")
-	private Integer commentId;
-
-	@Column(name="comment_text")
+	private String id;
+	
+	  
 	private String commentText;
 	
 	
@@ -30,26 +22,14 @@ public class Comment {
 		this.commentText = commentText;
 	}
 
-	
-	@ManyToOne 
-	@JoinColumn(name = "review_id")
-	private Review review;
-
-	public Integer getCommentId() {
-		return commentId;
+	public String getId() {
+		return id;
 	}
 
-	public void setCommentId(Integer commentId) {
-		this.commentId = commentId;
+	public void setId(String id) {
+		this.id = id;
 	}
  
-	public Review getReview() {
-		return review;
-	}
-
-	public void setReview(Review review) {
-		this.review = review;
-	}
  
 }
  

@@ -8,7 +8,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.udacity.course3.reviews.mongo.domain.Review;
  
 
-public interface ReviewsMongoRepository extends MongoRepository<Review, String>{
-	Optional<Review> findByReviewDescr( String reviewDescription );
+public interface ReviewsMongoRepository extends MongoRepository<Review, String>{ 
 	Optional<List<Review>> findByProductId( Integer productId );
 }
