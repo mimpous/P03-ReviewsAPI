@@ -4,10 +4,10 @@ import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.udacity.course3.reviews.mongo.domain.Product;
+import com.udacity.course3.reviews.mongo.domain.ProductMongo;
 
-public interface ProductMongoRepository extends CrudRepository<Product, Integer>{
+public interface ProductMongoRepository extends CrudRepository<ProductMongo, Integer>{
 	
-	Optional<Product> findByProductName( String productName );
+	Optional<ProductMongo> findByProductName( String productName );
 
 }

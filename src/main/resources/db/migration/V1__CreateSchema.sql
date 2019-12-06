@@ -25,3 +25,8 @@ CREATE TABLE comments (
 );
  
 
+CREATE TABLE products_mongo (
+     product_id SMALLINT NOT NULL AUTO_INCREMENT,
+     product_name VARCHAR (255) NOT NULL,
+     PRIMARY KEY (product_id) 
+);

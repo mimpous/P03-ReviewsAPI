@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.udacity.course3.reviews.mongo.domain.Product;
+import com.udacity.course3.reviews.mongo.domain.ProductMongo;
 import com.udacity.course3.reviews.mongo.repository.ProductMongoRepository;
 import com.udacity.course3.reviews.mongo.repository.ReviewsMongoRepository; 
 
@@ -28,7 +28,7 @@ import com.udacity.course3.reviews.mongo.repository.ReviewsMongoRepository;
 public class ProductsMongoController {
 	 
 		@Autowired
-		ProductMongoRepository productRepository;
+		ProductMongoRepository productMongoRepository;
 
 		@Autowired
 		ReviewsMongoRepository  reviewsMongoRepository;
@@ -41,8 +41,8 @@ public class ProductsMongoController {
 	     */
 	    @RequestMapping(value = "/", method = RequestMethod.POST)
 	    @ResponseStatus(HttpStatus.CREATED)
-	    public void createProduct(@Valid @RequestBody Product product ) {
-	    	productRepository.save( product ); 
+	    public void createProduct(@Valid @RequestBody ProductMongo product ) {
+	    	productMongoRepository.save( product ); 
 	    }
 
 	    /**
@@ -53,8 +53,8 @@ public class ProductsMongoController {
 	     */
 	    @JsonIgnore
 	    @RequestMapping(value = "/{id}")
-	    public Product findById(@PathVariable("id") Integer id) {
-	        Product product = productRepository.findById( id ).orElse(null);
+	    public ProductMongo findById(@PathVariable("id") Integer id) {
+	        ProductMongo product = productMongoRepository.findById( id ).orElse(null);
 	        if ( product == null ) {
 	        	throw     
 	    	 	new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -71,8 +71,8 @@ public class ProductsMongoController {
 	     */
 	    @RequestMapping(value = "/", method = RequestMethod.GET)
 	    public List<?> listProducts() {
-	    	List<Product> result = new ArrayList<Product>();
-	        productRepository.findAll().forEach( result::add);
+	    	List<ProductMongo> result = new ArrayList<ProductMongo>();
+	    	productMongoRepository.findAll().forEach( result::add);
 	        		
 	        result.forEach(review -> review.setReviews( reviewsMongoRepository.findByProductId(review.getProductId()).orElse(null)));
 	 

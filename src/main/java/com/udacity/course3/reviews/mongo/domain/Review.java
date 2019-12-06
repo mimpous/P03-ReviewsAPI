@@ -6,16 +6,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("reviews")
 public class Review {
-	
+
 	@Id
+	private String id;
+	
 	private Integer productId;
 	
-	@Id
-	private Integer reviewId;
- 
-	private String reviewDescr;
-  
-//	private Product product;
+ 	private String reviewDescr;
+   
 
 //	@Transient
 //	public void addComment(Comment aComment) {
@@ -25,18 +23,13 @@ public class Review {
 //		comments.add(aComment);
 //	}
 
-	public Integer getReviewId() {
-		return reviewId;
-	}
-
-	public void setReviewId(Integer reviewId) {
-		this.reviewId = reviewId;
-	}
+	 
 
 	public Integer getProductId() {
 		return productId;
 	}
 
+	 
 	public void setProductId(Integer productId) {
 		this.productId = productId;
 	}
@@ -49,6 +42,19 @@ public class Review {
 		this.reviewDescr = reviewDescr;
 	}
 
+
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+ 
+
 //	public List<Comment> getComments() {
 //		return comments;
 //	}
@@ -56,14 +62,7 @@ public class Review {
 //	public void setComments(List<Comment> comments) {
 //		this.comments = comments;
 //	}
-
-//	public Product getProduct() {
-//		return product;
-//	}
-//
-//	public void setProduct(Product product) {
-//		this.product = product;
-//	}
+ 
 
  
 	
