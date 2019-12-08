@@ -17,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.udacity.course3.reviews.domain.Product;
-import com.udacity.course3.reviews.repository.ProductRepository;
+import com.udacity.course3.reviews.repository.ProductRepository; 
 
 /**
  * Spring REST controller for working with product entity.
@@ -28,6 +28,8 @@ public class ProductsController {
  
 	@Autowired
 	ProductRepository productRepository;
+	
+
 
     /**
      * Creates a product.
@@ -57,7 +59,7 @@ public class ProductsController {
         }
         return product;
     }
- 
+  
 
     /**
      * Lists all products.

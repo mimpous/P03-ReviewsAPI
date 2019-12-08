@@ -17,8 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.udacity.course3.reviews.domain.Comment;
 import com.udacity.course3.reviews.domain.Product;
 import com.udacity.course3.reviews.domain.Review;
-import com.udacity.course3.reviews.mongo.domain.ProductMongo;
-import com.udacity.course3.reviews.mongo.repository.ProductMongoRepository;
 import com.udacity.course3.reviews.repository.CommentRepository;
 import com.udacity.course3.reviews.repository.ProductRepository;
 import com.udacity.course3.reviews.repository.ReviewsRepository;
@@ -42,10 +40,7 @@ public class ReviewsApplicationTests {
 	@Autowired
 	private CommentRepository commentRepository;
 	
-
-	@Autowired
-	private ProductMongoRepository productMongoRepository;
-	
+ 
 
 	@Test
 	public void injectedComponentsAreNotNull() {
@@ -55,8 +50,7 @@ public class ReviewsApplicationTests {
 		assertThat(testEntityManager).isNotNull();
 		assertThat(reviewsRepository).isNotNull();
 		assertThat(productRepository).isNotNull();
-		assertThat(commentRepository).isNotNull(); 
-		assertThat(productMongoRepository).isNotNull();
+		assertThat(commentRepository).isNotNull();  
 	}
 
 	@Test
@@ -116,17 +110,5 @@ public class ReviewsApplicationTests {
 	}
 	
 
-	
-	@Test
-	public void productMongoTest() {
-		
-		ProductMongo product = new ProductMongo();
-		product.setProductName("Test Product");
-		entityManager.persist(product);
-		
-		ProductMongo actual = productMongoRepository.findByProductName("Test Product").orElse(null);
-		assertThat(actual).isNotNull();
-		assertEquals(product.getProductId(), actual.getProductId());
-		
-	}	
+ 	
 }

@@ -16,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.udacity.course3.reviews.domain.Product;
 import com.udacity.course3.reviews.domain.Review;
 import com.udacity.course3.reviews.repository.ProductRepository;
+import com.udacity.course3.reviews.repository.ReviewsMongoRepository;
 import com.udacity.course3.reviews.repository.ReviewsRepository;
 
 /**
@@ -27,6 +28,9 @@ public class ReviewsController {
 	@Autowired
 	ReviewsRepository reviewsRepository;
 
+	@Autowired
+	ReviewsMongoRepository reviewsMongoRepository;
+	
 	@Autowired
 	ProductRepository productRepository;
     /**
@@ -40,8 +44,7 @@ public class ReviewsController {
      * @param productId The id of the product.
      * @return The created review or 404 if product id is not found.
      */
-    @SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.POST)
     public @Valid Review createReviewForProduct(@Valid @RequestBody Review review , @PathVariable("productId") Integer productId) {
     
     	Product product = productRepository.findById( productId ).orElse(null);
@@ -51,7 +54,12 @@ public class ReviewsController {
         } else { 
         	review.setProduct( product );
         	product.addReview(review);
+        	
+        	//save in mongodb
         	reviewsRepository.save( review ); 
+        	
+        	//save Document in MongoDB
+        	reviewsMongoRepository.save( review ); 
     		return review; 
         }
     	 
@@ -63,11 +71,12 @@ public class ReviewsController {
      * @param productId The id of the product.
      * @return The list of reviews.
      */
-    @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.GET)
     public List<Review> listReviewsForProduct(@PathVariable("productId") Integer productId) {
  
     	Product product = productRepository.findById( productId ).get();
+    	
+    	//return reviewsMongoRepository.findByProductId( productId).orElse(null);
     	 return  product.getReviews();
 
     }

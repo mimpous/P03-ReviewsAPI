@@ -15,7 +15,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 @Entity
+@Document("reviews")
 @Table(name = "reviews")
 public class Review {
 	@Id
