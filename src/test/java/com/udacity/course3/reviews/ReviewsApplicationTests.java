@@ -75,6 +75,7 @@ public class ReviewsApplicationTests {
 		Review review = new Review();
 		review.setReviewDescr("Rev desc"); 
 		review.setProduct( product ); 
+		review.setId("ABC");
  
 		entityManager.persist(review); 
 		
@@ -93,6 +94,7 @@ public class ReviewsApplicationTests {
 		Review review = new Review();
 		review.setReviewDescr("Rev desc"); 
 		review.setProduct( product ); 
+		review.setId("ABC");
  
 		entityManager.persist(review); 
 		

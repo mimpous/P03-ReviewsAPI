@@ -10,7 +10,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.udacity.course3.reviews.mongo.domain.Comment;
 import com.udacity.course3.reviews.mongo.domain.Review;
-import com.udacity.course3.reviews.mongo.repository.CommentMongoRepository;
 import com.udacity.course3.reviews.mongo.repository.ReviewsMongoRepository;
  
  
@@ -21,9 +20,7 @@ public class ReviewsApplicationMongodbTests {
 	
 	@Autowired
 	private ReviewsMongoRepository reviewMongoRepository;
-	
-	@Autowired
-	private CommentMongoRepository  commentMongoRepository;
+	 
 	
 	@Test
 	public void reviewMongoTest() {
@@ -47,8 +44,7 @@ public class ReviewsApplicationMongodbTests {
 		
 		Comment  comment = new Comment();
 		comment.setCommentText("This is a Mongo Comment"); 
-		
-		Comment savedComment = commentMongoRepository.save(comment);
+		 
 		
 		review.addComment(comment);
 
@@ -60,7 +56,7 @@ public class ReviewsApplicationMongodbTests {
 		Review actual = reviewMongoRepository.findById( saved.getId()).orElse(null);
 		assertThat(actual).isNotNull();
 		
-		assertEquals(saved.getComments().get(0).getId(), savedComment.getId());
+		assertEquals(saved.getComments().get(0).getId(), actual.getComments().get(0).getId());
 	}
 	 
 }

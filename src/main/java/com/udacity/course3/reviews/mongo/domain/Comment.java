@@ -8,10 +8,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Comment {
 
 	@Id
-	private String id;
+	protected String id;
 	
 	public Comment() {
-		
+		super();
 	}
 	
 	public Comment( String comment) {

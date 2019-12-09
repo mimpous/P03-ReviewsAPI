@@ -38,6 +38,10 @@ public class CommentsController {
 	@Autowired
 	ReviewsMongoRepository reviewsMongoRepository;
 	
+	@Autowired
+	CommentMongoRepository commentMongoRepository;
+	
+	  
 	
     /**
      * Creates a comment for a review.
@@ -59,16 +63,24 @@ public class CommentsController {
     	} else {
     		
     		reviewer.addComment(comment);
+    		comment.setReview( reviewer );
     		commentRepository.save(comment);
+    		
     		
     		//convert into mongo Comments
     		com.udacity.course3.reviews.mongo.domain.Comment mongoComments = 
     				new com.udacity.course3.reviews.mongo.domain.Comment( comment.getCommentText());
     		 
+    		//save in order to retrieve the id
+    		com.udacity.course3.reviews.mongo.domain.Comment savedComments = commentMongoRepository.save(mongoComments );
+    		
+    		
     		//retrieve Mongo Review
     		com.udacity.course3.reviews.mongo.domain.Review mongoReview= reviewsMongoRepository.findById(reviewer.getId()).orElse(null);
     		
-    		mongoReview.addComment( mongoComments );
+    		
+    		
+    		mongoReview.addComment( savedComments );
     		reviewsMongoRepository.save(mongoReview);
     		
     		
