@@ -29,7 +29,6 @@ public class Comment {
 	public void setCommentText(String commentText) {
 		this.commentText = commentText;
 	}
-
 	
 	@ManyToOne 
 	@JoinColumn(name = "review_id")
@@ -52,4 +51,3 @@ public class Comment {
 	}
  
 }
- 

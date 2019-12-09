@@ -27,6 +27,9 @@ public class Review {
 	@Column(name="review_descr")
 	private String reviewDescr; 
 	 
+	@Column(name="review_mongo_id")
+	private String id;
+	
 	@OneToMany(mappedBy =  "review" ,fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Comment> comments;
 	 
@@ -72,6 +75,14 @@ public class Review {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
  
 	

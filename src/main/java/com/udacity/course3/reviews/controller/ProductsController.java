@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.udacity.course3.reviews.domain.Product;
+import com.udacity.course3.reviews.mongo.repository.ReviewsMongoRepository;
 import com.udacity.course3.reviews.repository.ProductRepository;
 
 /**
@@ -28,6 +29,10 @@ public class ProductsController {
  
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	ReviewsMongoRepository  reviewsMongoRepository;
+
 
     /**
      * Creates a product.
@@ -54,7 +59,8 @@ public class ProductsController {
         if ( product == null ) {
         	throw     
     	 	new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+        } 
+        product.setReviews( reviewsMongoRepository.findByProductId(product.getProductId()).orElse(null));
         return product;
     }
  
@@ -68,6 +74,8 @@ public class ProductsController {
     public List<?> listProducts() {
     	List<Product> result = new ArrayList<Product>();
         productRepository.findAll().forEach(result::add);
+        result.forEach(review -> review.setReviews( reviewsMongoRepository.findByProductId(review.getProductId()).orElse(null)));
+
         return result;
     }
 }

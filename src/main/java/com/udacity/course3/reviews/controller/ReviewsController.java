@@ -1,5 +1,6 @@
 package com.udacity.course3.reviews.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.udacity.course3.reviews.domain.Product;
 import com.udacity.course3.reviews.domain.Review;
+import com.udacity.course3.reviews.mongo.repository.ReviewsMongoRepository;
 import com.udacity.course3.reviews.repository.ProductRepository;
 import com.udacity.course3.reviews.repository.ReviewsRepository;
 
@@ -29,6 +31,10 @@ public class ReviewsController {
 
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	ReviewsMongoRepository reviewsMongoRepository;
+	
     /**
      * Creates a review for a product.
      * <p>
@@ -50,8 +56,20 @@ public class ReviewsController {
     	 	new ResponseStatusException(HttpStatus.NOT_FOUND);
         } else { 
         	review.setProduct( product );
+        	
+        	//convert into a Mongo-Review Object 
+        	com.udacity.course3.reviews.mongo.domain.Review  mongoReview =
+        			new com.udacity.course3.reviews.mongo.domain.Review( review.getProduct().getProductId() , review.getReviewDescr()
+        					, null); 
+        	
+        	//save to mongo
+        	com.udacity.course3.reviews.mongo.domain.Review  savedReview =  reviewsMongoRepository.save( mongoReview );
+        	reviewsMongoRepository.save( mongoReview );
+        	
+        	review.setId(savedReview.getId() );
         	product.addReview(review);
-        	reviewsRepository.save( review ); 
+        	reviewsRepository.save( review );
+        	
     		return review; 
         }
     	 
@@ -65,10 +83,20 @@ public class ReviewsController {
      */
     @SuppressWarnings("unchecked")
 	@RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.GET)
-    public List<Review> listReviewsForProduct(@PathVariable("productId") Integer productId) {
- 
+    public List listReviewsForProduct(@PathVariable("productId") Integer productId) {
+    	
     	Product product = productRepository.findById( productId ).get();
-    	 return  product.getReviews();
+    	
+    	//get Review from JPA 
+    	List<Review> reviewList = product.getReviews();
+    	
+    	//Create a new List
+    	List returnList  = new ArrayList<>();
+    	
+    	//add a Review from Mongo
+    	reviewList.forEach(review -> returnList.add(reviewsMongoRepository.findById(review.getId())));
+        
+    	return returnList;
 
     }
      

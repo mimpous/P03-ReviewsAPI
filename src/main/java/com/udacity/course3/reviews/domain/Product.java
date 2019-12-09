@@ -25,12 +25,12 @@ public class Product {
 	private String productName;
 	
 	@OneToMany(mappedBy =  "product" ,fetch = FetchType.LAZY, orphanRemoval = true)
-	private List<Review> reviews;
+	private List reviews;
 
 	@Transient
 	public void addReview( Review aReview ) {
 		if ( reviews == null ) {
-			reviews = new ArrayList<Review>();
+			reviews = new ArrayList();
 		}
 		reviews.add(aReview);
 	}
@@ -52,11 +52,11 @@ public class Product {
 		this.productName = productName;
 	}
 
-	public List<Review> getReviews() {
+	public List getReviews() {
 		return reviews;
 	}
 
-	public void setReviews(List<Review> reviews) {
+	public void setReviews(List reviews) {
 		this.reviews = reviews;
 	}
 	

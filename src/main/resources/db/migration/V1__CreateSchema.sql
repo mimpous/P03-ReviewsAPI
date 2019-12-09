@@ -7,14 +7,13 @@ CREATE TABLE products (
 CREATE TABLE reviews (
     review_id SMALLINT NOT NULL AUTO_INCREMENT,
     product_id SMALLINT NOT NULL ,
-     review_descr VARCHAR (255) NOT NULL,
-     PRIMARY KEY (review_id) ,
+	review_mongo_id VARCHAR (255) NOT NULL,    
+    review_descr VARCHAR (255) NOT NULL,
+   PRIMARY KEY (review_id) ,
    FOREIGN KEY (product_id)
         REFERENCES products (product_id) 
 ); 
-
-
- 
+  
 CREATE TABLE comments (
      comment_id SMALLINT NOT NULL AUTO_INCREMENT,
      review_id SMALLINT NOT NULL ,
