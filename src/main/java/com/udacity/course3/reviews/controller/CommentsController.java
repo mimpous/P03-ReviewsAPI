@@ -16,6 +16,8 @@ import org.springframework.web.client.HttpServerErrorException;
 
 import com.udacity.course3.reviews.domain.Comment;
 import com.udacity.course3.reviews.domain.Review;
+import com.udacity.course3.reviews.mongo.repository.CommentMongoRepository;
+import com.udacity.course3.reviews.mongo.repository.ReviewsMongoRepository;
 import com.udacity.course3.reviews.repository.CommentRepository;
 import com.udacity.course3.reviews.repository.ReviewsRepository;
 
@@ -31,6 +33,11 @@ public class CommentsController {
 	
 	@Autowired
 	ReviewsRepository reviewsRepository;
+	
+	
+	@Autowired
+	ReviewsMongoRepository reviewsMongoRepository;
+	
 	
     /**
      * Creates a comment for a review.
@@ -50,8 +57,21 @@ public class CommentsController {
     	if ( reviewer == null ) {
     		return new ResponseEntity(HttpStatus.NOT_FOUND);
     	} else {
+    		
     		reviewer.addComment(comment);
     		commentRepository.save(comment);
+    		
+    		//convert into mongo Comments
+    		com.udacity.course3.reviews.mongo.domain.Comment mongoComments = 
+    				new com.udacity.course3.reviews.mongo.domain.Comment( comment.getCommentText());
+    		 
+    		//retrieve Mongo Review
+    		com.udacity.course3.reviews.mongo.domain.Review mongoReview= reviewsMongoRepository.findById(reviewer.getId()).orElse(null);
+    		
+    		mongoReview.addComment( mongoComments );
+    		reviewsMongoRepository.save(mongoReview);
+    		
+    		
     		return new ResponseEntity(HttpStatus.OK);
     	}
     	 

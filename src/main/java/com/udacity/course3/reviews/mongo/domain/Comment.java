@@ -10,6 +10,13 @@ public class Comment {
 	@Id
 	private String id;
 	
+	public Comment() {
+		
+	}
+	
+	public Comment( String comment) {
+		this.commentText=comment;
+	}
 	  
 	private String commentText;
 	

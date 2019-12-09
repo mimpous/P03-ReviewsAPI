@@ -16,6 +16,10 @@ public class Review {
 		this.reviewDescr = reviewDescr;
 		this.comments = comments;
 	}
+	public Review() {
+		super();
+	}
+	
 
 	@Id
 	protected String id;

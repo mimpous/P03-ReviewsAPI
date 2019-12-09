@@ -60,7 +60,7 @@ public class ProductsController {
         	throw     
     	 	new ResponseStatusException(HttpStatus.NOT_FOUND);
         } 
-        product.setReviews( reviewsMongoRepository.findByProductId(product.getProductId()).orElse(null));
+        //product.setReviews( reviewsMongoRepository.findByProductId(product.getProductId()).orElse(null));
         return product;
     }
  
@@ -74,7 +74,7 @@ public class ProductsController {
     public List<?> listProducts() {
     	List<Product> result = new ArrayList<Product>();
         productRepository.findAll().forEach(result::add);
-        result.forEach(review -> review.setReviews( reviewsMongoRepository.findByProductId(review.getProductId()).orElse(null)));
+      //-------------          result.forEach(review -> review.setReviews( reviewsMongoRepository.findByProductId(review.getProductId()).orElse(null)));
 
         return result;
     }

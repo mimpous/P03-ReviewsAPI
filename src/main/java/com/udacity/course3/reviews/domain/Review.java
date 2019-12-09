@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -27,9 +26,6 @@ public class Review {
 	@Column(name="review_descr")
 	private String reviewDescr; 
 	 
-	@Column(name="review_mongo_id")
-	private String id;
-	
 	@OneToMany(mappedBy =  "review" ,fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Comment> comments;
 	 
@@ -37,6 +33,11 @@ public class Review {
 	@JoinColumn( name="product_id" )
 	private Product product;
 
+	
+	@Column(name="review_mongo_id")
+	private String id;
+	
+	
 	@Transient
 	public void addComment( Comment aComment ) {
 		if ( comments == null ) {
